@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+/*
+.h3-font{
+	color: #f50505;
+}
+
+.body-background {
+    background-color: #767373 !important; 
+}
+*/
+.error-text {
+	color: red;
+}
+.success-text{
+	color: green;
+}
+
