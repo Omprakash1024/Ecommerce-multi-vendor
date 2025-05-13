@@ -1,5 +1,8 @@
 package com.app.oneplace.services;
 
-public class AuthService {
+import com.app.oneplace.response.SignupRequest;
 
+public interface AuthService {
+	
+	String createUser (SignupRequest req);
 }
