@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class EmailService {
 
 	private final JavaMailSender javaMailSender;
-	private void sendVerificationOtpEmail(String userEmail, String otp, String subject, String text) throws MessagingException {
+	public void sendVerificationOtpEmail(String userEmail, String otp, String subject, String text) throws MessagingException {
 		try {
 			MimeMessage mimeMessage= javaMailSender.createMimeMessage();
 			MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "utf-8");

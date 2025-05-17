@@ -6,5 +6,5 @@ import com.app.oneplace.model.AppUser;
 
 public interface UserRepository extends JpaRepository<AppUser, Long>{
 
-	AppUser findByEmail(String email);
+	public AppUser findByEmail(String email);
 }
