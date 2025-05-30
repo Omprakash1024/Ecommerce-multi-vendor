@@ -23,10 +23,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class CustomUserServiceImpl implements UserDetailsService{
-    @Autowired
-	private UserRepository userRepository;
-	private SellerRepository sellerRepository;
+
+	private final UserRepository userRepository;
+	private final SellerRepository sellerRepository;
+	
 	private static final String SELLER_PREFIX ="seller_"; // if any usr name is starts with seller the need to check seller table else appuser table
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub

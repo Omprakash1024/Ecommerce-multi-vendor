@@ -6,4 +6,5 @@ import com.app.oneplace.model.Cart;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
+	Cart findByUserId(Long id);
 }

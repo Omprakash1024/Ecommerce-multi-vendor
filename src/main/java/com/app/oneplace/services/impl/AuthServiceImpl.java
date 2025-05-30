@@ -17,8 +17,10 @@ import com.app.oneplace.config.JwtProvider;
 import com.app.oneplace.domain.USER_ROLE;
 import com.app.oneplace.model.AppUser;
 import com.app.oneplace.model.Cart;
+import com.app.oneplace.model.Seller;
 import com.app.oneplace.model.VerificationCode;
 import com.app.oneplace.repo.CartRepository;
+import com.app.oneplace.repo.SellerRepository;
 import com.app.oneplace.repo.UserRepository;
 import com.app.oneplace.repo.VerificationCodeRepository;
 import com.app.oneplace.request.LoginRequest;
@@ -42,6 +44,7 @@ public class AuthServiceImpl implements AuthService {
 	private final VerificationCodeRepository verificationCodeRepository;
 	private final EmailService emailService;
 	private final CustomUserServiceImpl customUserService;
+	private final SellerRepository sellerRepository;
 	
 	@Override
 	public String createUser(SignupRequest req) throws Exception {
@@ -79,17 +82,28 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public void sentLoginOtp(String email) throws Exception {
+	public void sentLoginOtp(String email, USER_ROLE role) throws Exception {
+		System.out.println("Entry sentLoginOtp method-- email: "+email +" Role : "+role);
 		String SIGNIN_PREFIX ="signin_";
 		
 		if(email.startsWith(SIGNIN_PREFIX)) {
 			email =email.substring(SIGNIN_PREFIX.length());
 			
-			AppUser user = userRepository.findByEmail(email);
-			if(user== null) {
-				throw new Exception("User not exist with provided email");
+			if(role.equals(USER_ROLE.USER_SELLER)) {
+				System.out.println("Inside seller check");
+				Seller seller = sellerRepository.findByEmail(email);
+				if(seller== null) {
+					throw new Exception("Seller not found with provided email");
+				}
+			}
+			else {
+				System.out.println("Inside customer check");
+				AppUser user = userRepository.findByEmail(email);
+				if(user== null) {
+					throw new Exception("User not exist with provided email");
 			}
 			
+		}
 		}
 		VerificationCode verificationCode = verificationCodeRepository.findByEmail(email);
 		
@@ -106,7 +120,9 @@ public class AuthServiceImpl implements AuthService {
 		
 		String subject= "OnePlace Login/SignUp Otp";
 		String body ="This is your otp - "+Otp;
+		System.out.println("before email otp send email : "+ email+" otp : "+Otp);
 		emailService.sendVerificationOtpEmail(email, Otp, subject, body);
+		System.out.println("exit email otp send ");
 	}
 
 	@Override
@@ -136,10 +152,17 @@ public class AuthServiceImpl implements AuthService {
 
 	private Authentication authonticate(String username, String otp) {
 		System.out.println("entry : authonticate method : "+username +" "+otp);
+		String SIGNIN_PREFIX ="signin_";
+
+		if(username.startsWith(SIGNIN_PREFIX)) {
+			username =username.substring(SIGNIN_PREFIX.length());
+		}
+		
 		UserDetails userDetails= customUserService.loadUserByUsername(username);
 		if(userDetails ==null) {
 			throw new BadCredentialsException("Username is incorrect");
 		}
+		
 		VerificationCode verificationCode = verificationCodeRepository.findByEmail(username);
 		if(verificationCode ==null || !verificationCode.getOtp().equals(otp)) {
 			throw new BadCredentialsException("Wrong Otp");

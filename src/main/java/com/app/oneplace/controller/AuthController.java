@@ -10,6 +10,7 @@ import com.app.oneplace.domain.USER_ROLE;
 import com.app.oneplace.model.AppUser;
 import com.app.oneplace.model.VerificationCode;
 import com.app.oneplace.repo.UserRepository;
+import com.app.oneplace.request.LoginOTPRequest;
 import com.app.oneplace.request.LoginRequest;
 import com.app.oneplace.response.ApiResponse;
 import com.app.oneplace.response.AuthResponse;
@@ -37,9 +38,9 @@ public class AuthController {
 		return ResponseEntity.ok(authResponse);
 	}
 	@PostMapping("/send/login-signup-otp") //otp generation for Login/Signup
-	public ResponseEntity<ApiResponse> sendOTPHandler(@RequestBody VerificationCode request) throws Exception{
+	public ResponseEntity<ApiResponse> sendOTPHandler(@RequestBody LoginOTPRequest request) throws Exception{
 		
-		authService.sentLoginOtp(request.getEmail());
+		authService.sentLoginOtp(request.getEmail(),request.getRole());
 		ApiResponse response = new ApiResponse();
 		response.setMessage("OTP send successfully");
 		return ResponseEntity.ok(response);

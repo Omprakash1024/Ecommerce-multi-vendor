@@ -33,6 +33,9 @@ public class Review {
 	private Long id;
 	
 	@NotNull
+	private String reviewerName;
+	
+	@NotNull
 	private String reviewText;
 	
 	@NotNull

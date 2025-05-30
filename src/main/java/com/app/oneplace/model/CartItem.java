@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,7 +35,8 @@ public class CartItem {
 	@ManyToOne  //many cart item have same product
 	private Product product;
 	
-	private String sizes;
+	@Column(name = "product_size")
+	private String size;
 	
 	private int quantity=1;
 	

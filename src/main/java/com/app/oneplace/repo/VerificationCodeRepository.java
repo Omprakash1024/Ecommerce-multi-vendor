@@ -7,4 +7,5 @@ import com.app.oneplace.model.VerificationCode;
 public interface VerificationCodeRepository extends JpaRepository<VerificationCode, Long>{
 
 	VerificationCode findByEmail(String email);
+	VerificationCode findByOtp(String otp);
 }

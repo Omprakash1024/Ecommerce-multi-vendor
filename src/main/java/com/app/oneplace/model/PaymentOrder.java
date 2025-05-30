@@ -36,6 +36,8 @@ public class PaymentOrder {
 	
 	private String paymentLinkId;
 	
+	private Long amount;
+	
 	@ManyToOne
 	private AppUser user; // one user can pay using multiple payment method
 	
