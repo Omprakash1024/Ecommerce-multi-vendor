@@ -42,5 +42,7 @@ public class Cart {
 	private int discount;
 	
 	private String couponCode;
+	
+	private double beforeCouponPrice =0;
 
 }

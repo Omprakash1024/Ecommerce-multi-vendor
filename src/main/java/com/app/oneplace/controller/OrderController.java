@@ -28,14 +28,17 @@ import com.app.oneplace.model.Product;
 import com.app.oneplace.model.Seller;
 import com.app.oneplace.model.SellerReport;
 import com.app.oneplace.repo.OrderItemRepository;
+import com.app.oneplace.repo.PaymentOrderRepository;
 import com.app.oneplace.request.AddItemRequest;
 import com.app.oneplace.response.ApiResponse;
 import com.app.oneplace.response.PaymentLinkResponse;
 import com.app.oneplace.services.CartService;
 import com.app.oneplace.services.OrderService;
+import com.app.oneplace.services.PaymentService;
 import com.app.oneplace.services.SellerReportService;
 import com.app.oneplace.services.SellerService;
 import com.app.oneplace.services.UserService;
+import com.razorpay.PaymentLink;
 
 import lombok.RequiredArgsConstructor;
 
@@ -50,14 +53,15 @@ public class OrderController {
 	private final CartService cartService;
 	private final SellerService sellerService;
 	private final SellerReportService sellerReportService; 
-    
+	private final PaymentService paymentService;
+	private final PaymentOrderRepository paymentOrderRepository;    
 	@PostMapping()
 	public ResponseEntity<PaymentLinkResponse> createOrderHandler(
 			@RequestBody Address shippingAddress,
 			@RequestParam PaymentMethod paymentMethod,
 			@RequestHeader("Authorization") String jwt) throws  Exception{
 		
-		PaymentLinkResponse paymentLinkResponse = new PaymentLinkResponse(); 
+		
 		
 	     AppUser user = userService.findUserByJWTtoken(jwt);
 	     
@@ -65,15 +69,35 @@ public class OrderController {
 	     
 	     Set<Order> orders = orderService.createOrder(user, shippingAddress, cart);
 	     
-	    // PaymentOrder paymentOrder = payment
-		/* payment implementation
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * */
-		 return new ResponseEntity<>(paymentLinkResponse, HttpStatus.ACCEPTED);
+	    // 
+		// payment implementation
+	     PaymentOrder paymentOrder = paymentService.createOrder(user, orders);
+	     
+	     PaymentLinkResponse response = new PaymentLinkResponse(); 
+	     
+		if(paymentMethod.equals(PaymentMethod.RAZORPAY)) {
+			
+			PaymentLink payment = paymentService.createRazorpayPaymentLink(
+					user, 
+					paymentOrder.getAmount(), 
+					paymentOrder.getId());
+			
+			String paymentUrl = payment.get("short_url");
+			String paymentUrlId = payment.get("id");
+			
+			response.setPaymentLinkUrl(paymentUrl);
+			paymentOrder.setPaymentLinkId(paymentUrl);
+			paymentOrderRepository.save(paymentOrder);
+			
+			
+		}else {
+			String paymenturl = paymentService.createStripePaymentLink(user, paymentOrder.getAmount(), paymentOrder.getId());
+			
+			response.setPaymentLinkUrl(paymenturl);
+			paymentOrder.setPaymentLinkId(paymenturl);
+			paymentOrderRepository.save(paymentOrder);
+		}
+		 return new ResponseEntity<>(response, HttpStatus.OK);
 		
 	}
 	

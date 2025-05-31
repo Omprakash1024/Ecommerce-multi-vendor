@@ -40,7 +40,7 @@ public class AppUser {
 	private Set<Address> addresses = new HashSet<>();
 	@ManyToMany
 	@JsonIgnore
-	private Set<Coupan> usedCoupens = new HashSet<>();
+	private Set<Coupon> usedCoupens = new HashSet<>();
 	
 	
 }
