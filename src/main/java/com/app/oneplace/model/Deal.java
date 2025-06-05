@@ -28,5 +28,5 @@ public class Deal {
 	private Integer discount;
 	
 	@OneToOne
-	private HomeCategory categiry; //in which category im giving deal
+	private HomeCategory category; //in which category im giving deal
 }

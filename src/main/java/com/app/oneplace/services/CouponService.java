@@ -12,11 +12,11 @@ public interface CouponService {
 	
 	Cart removeCoupon(String code,AppUser user)throws Exception ;
 	
-	Coupon findCouponById(Long id);
+	Coupon findCouponById(Long id) throws Exception;
 	
 	Coupon createCoupon(Coupon coupon);
 	
 	List<Coupon> findAllCoupons();
 	
-	void deleteCoupon(Long id);
+	void deleteCoupon(Long id) throws Exception ;
 }
