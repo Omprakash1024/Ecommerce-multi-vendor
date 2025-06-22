@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,16 +15,13 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.service.annotation.DeleteExchange;
 
 import com.app.oneplace.domain.AccountStatus;
 import com.app.oneplace.model.Seller;
 import com.app.oneplace.model.SellerReport;
 import com.app.oneplace.model.VerificationCode;
-import com.app.oneplace.repo.SellerRepository;
 import com.app.oneplace.repo.VerificationCodeRepository;
 import com.app.oneplace.request.LoginRequest;
-import com.app.oneplace.response.ApiResponse;
 import com.app.oneplace.response.AuthResponse;
 import com.app.oneplace.services.AuthService;
 import com.app.oneplace.services.EmailService;
@@ -45,7 +41,6 @@ public class SellerController {
 	private final SellerService sellerService;
 	private final VerificationCodeRepository verificationCodeRepository;
 	private final AuthService authService;
-	private final SellerRepository sellerRepository;
 	private final EmailService emailService;
 	private final SellerReportService sellerReportService;
 
@@ -106,19 +101,16 @@ public class SellerController {
 		return new ResponseEntity<Seller>(seller, HttpStatus.OK);
 	}
 
-	
-	 @GetMapping("/report") 
-	 public ResponseEntity<SellerReport>
-	  					getSellerReport(@RequestHeader("Authorization") String jwt) throws Exception{
-	  
-		 Seller seller = sellerService.getSellerProfile(jwt);
-	  
-		 SellerReport sr = sellerReportService.getSellerReport(seller);
-	  
-	  	return new ResponseEntity<SellerReport>(sr,HttpStatus.OK);
-	 }
-	  
-	 
+	@GetMapping("/report")
+	public ResponseEntity<SellerReport> getSellerReport(@RequestHeader("Authorization") String jwt) throws Exception {
+
+		Seller seller = sellerService.getSellerProfile(jwt);
+
+		SellerReport sr = sellerReportService.getSellerReport(seller);
+
+		return new ResponseEntity<SellerReport>(sr, HttpStatus.OK);
+	}
+
 	@GetMapping()
 	public ResponseEntity<List<Seller>> getAllSellers(@RequestParam(required = false) AccountStatus status)
 			throws Exception {

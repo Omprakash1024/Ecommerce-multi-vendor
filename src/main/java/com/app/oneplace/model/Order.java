@@ -16,7 +16,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -29,42 +28,43 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-@Table(name ="orders")
+@Table(name = "orders")
 public class Order {
- 
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private String orderId;
-	
-	@ManyToOne //one user can place multiple orders
-	private AppUser user; 
-	
-	private Long sellerId; 
-	
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL,orphanRemoval = true)
+
+	@ManyToOne // one user can place multiple orders
+	private AppUser user;
+
+	private Long sellerId;
+
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OrderItem> orderItems = new ArrayList<>();
-	
-	@ManyToOne   //one address can have multiple orders
-	private Address shippingAddress; 
-	
+
+	@ManyToOne // one address can have multiple orders
+	private Address shippingAddress;
+
 	@Embedded
 	private PaymentDetails paymentDetails = new PaymentDetails();
-	
+
 	private double totalMrpPrice;
-	
+
 	private Integer totalSellingPrice;
-	
+
 	private Integer discount;
-	
+
 	private OrderStatus orderStatus;
-	
+
 	private int totalItem;
-	
-    private PaymentStatus paymentStatus = PaymentStatus.PENDING;
-    
-    private LocalDateTime orderDate = LocalDateTime.now();
-    
-    private LocalDateTime deliverDate = orderDate.plusDays(7);  //order will be delivered in 7 days // can be parameterized 
+
+	private PaymentStatus paymentStatus = PaymentStatus.PENDING;
+
+	private LocalDateTime orderDate = LocalDateTime.now();
+
+	private LocalDateTime deliverDate = orderDate.plusDays(7); // order will be delivered in 7 days // can be
+																// parameterized
 }

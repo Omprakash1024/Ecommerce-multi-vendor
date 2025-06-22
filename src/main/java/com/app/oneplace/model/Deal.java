@@ -1,7 +1,5 @@
 package com.app.oneplace.model;
 
-import java.util.Set;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,9 +22,9 @@ public class Deal {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private Integer discount;
-	
+
 	@OneToOne
-	private HomeCategory category; //in which category im giving deal
+	private HomeCategory category; // in which category im giving deal
 }

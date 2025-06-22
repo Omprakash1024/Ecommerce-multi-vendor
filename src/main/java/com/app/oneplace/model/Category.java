@@ -1,9 +1,5 @@
 package com.app.oneplace.model;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,22 +20,21 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Category {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private String name;
-	
-    @NotNull
+
+	@NotNull
 	@Column(unique = true)
 	private String categoryId;
-    
-    @ManyToOne
-    private Category parentCategory;
-    
-    @NotNull
-    private Integer categoryLevel;
-    
-    
+
+	@ManyToOne
+	private Category parentCategory;
+
+	@NotNull
+	private Integer categoryLevel;
+
 }

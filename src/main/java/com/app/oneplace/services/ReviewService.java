@@ -6,18 +6,19 @@ import com.app.oneplace.model.AppUser;
 import com.app.oneplace.model.Product;
 import com.app.oneplace.model.Review;
 import com.app.oneplace.request.CreateReviewRequest;
+import com.app.oneplace.response.ReviewResponseDto;
 
 public interface ReviewService {
 
-	Review createReview(CreateReviewRequest req, 
+	Review createReview(CreateReviewRequest req,
 			AppUser user,
 			Product product);
-	List<Review> getReviewsByProductId(Long productId);
-	
-	
-	Review updateReview(Long reviewId, String reviewText, double rating, Long userId) throws Exception ;
-	
+
+	List<ReviewResponseDto> getReviewsByProductId(Long productId);
+
+	Review updateReview(Long reviewId, String reviewText, double rating, Long userId) throws Exception;
+
 	void deleteReview(Long reviewId, Long userId) throws Exception;
-	
-	Review getReviewById(Long reviewId) throws Exception ;
+
+	Review getReviewById(Long reviewId) throws Exception;
 }

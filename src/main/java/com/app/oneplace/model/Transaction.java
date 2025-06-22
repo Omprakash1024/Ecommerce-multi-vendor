@@ -1,7 +1,6 @@
 package com.app.oneplace.model;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,20 +21,20 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Transaction {
- 
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@ManyToOne
 	private AppUser Customer;
-	
+
 	@OneToOne
 	private Order order;
-	
+
 	@ManyToOne
 	private Seller seller;
-	
+
 	private LocalDateTime txnDate = LocalDateTime.now();
-	
+
 }

@@ -2,6 +2,7 @@ package com.app.oneplace.config;
 
 import java.util.Collections;
 
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,30 +20,33 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Configuration
 @EnableWebSecurity
+@EnableCaching
 public class AppConfig {
 	@Bean
-	SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception{
+	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.sessionManagement(management -> management.sessionCreationPolicy(
-				SessionCreationPolicy.STATELESS
-				)).authorizeHttpRequests(authorize -> authorize
+				SessionCreationPolicy.STATELESS)).authorizeHttpRequests(authorize -> authorize
 						.requestMatchers("/api/**").authenticated()
 						.requestMatchers("/api/products/*/reviews").permitAll()
 						.anyRequest().permitAll())
-		                .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
-		                .csrf(csrf->csrf.disable())
-		                .cors(cors -> cors.configurationSource(corsConfiguration()));
-		
+				.addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
+				.csrf(csrf -> csrf.disable())
+				.cors(cors -> cors.configurationSource(corsConfiguration()));
+
 		return http.build();
 	}
 
 	private CorsConfigurationSource corsConfiguration() {
 		return new CorsConfigurationSource() {
-			
+
 			@Override
 			public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-				CorsConfiguration corsConfiguration =new CorsConfiguration();
-				corsConfiguration.setAllowedOrigins(Collections.singletonList("*")); //all the urls will be accessed 
-				corsConfiguration.setAllowedMethods(Collections.singletonList("*"));  //all the methods will be accessed, (post,get,delete)you can configure specific methods
+				CorsConfiguration corsConfiguration = new CorsConfiguration();
+				corsConfiguration.setAllowedOrigins(Collections.singletonList("*")); // all the urls will be accessed
+				corsConfiguration.setAllowedMethods(Collections.singletonList("*")); // all the methods will be
+																						// accessed,
+																						// (post,get,delete)you can
+																						// configure specific methods
 				corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
 				corsConfiguration.setAllowCredentials(true);
 				corsConfiguration.setExposedHeaders(Collections.singletonList("Authorization"));
@@ -56,6 +60,7 @@ public class AppConfig {
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+
 	@Bean
 	public RestTemplate restTemplate() {
 		return new RestTemplate();

@@ -1,7 +1,5 @@
 package com.app.oneplace.model;
 
-import java.util.Set;
-
 import com.app.oneplace.domain.HomeCategorySection;
 
 import jakarta.persistence.Entity;
@@ -25,12 +23,12 @@ public class HomeCategory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private String name;
-	
+
 	private String image;
-	
+
 	private String categoryId;
-	
+
 	private HomeCategorySection section;
 }
