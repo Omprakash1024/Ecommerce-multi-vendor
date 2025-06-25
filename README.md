@@ -31,46 +31,22 @@ OnePlace is a multi-vendor e-commerce backend service that handles user manageme
 - Refund initiation on order cancellation (Razorpay)
 - Admin, Seller, and User-level APIs
 
-## 📊 Architecture
-
-+------------------------+
-| API Consumer |
-| (Postman / Frontend UI) |
-+-----------+------------+
-|
-+-----------v------------+
-| Spring Boot Backend |
-+-----+----+----+----+----+
-| | | |
-v v v v
-Auth Products Orders Payments
-| | | |
-+-----+----+----+----+------+
-| PostgreSQL DB |
-+---------------------------+
-| Redis Cache |
-+---------------------------+
-| Razorpay & Stripe APIs |
-| + Webhooks |
-+---------------------------+
-
-
 
 ## 📦 How to Run This Project Locally
 
 1️⃣ **Clone the repository**
-git clone <your-github-repo-url>
-cd Ecommerce-multi-vendor
+-git clone https://github.com/Omprakash1024/Ecommerce-multi-vendor.git
+-cd Ecommerce-multi-vendor
 
 
 2️⃣ **Configure application.properties**
 - Add your PostgreSQL, Razorpay, Stripe, and Redis credentials.
 
 3️⃣ **Start Redis Server** (if not running)
-redis-server
+-redis-server
 
 4️⃣ **Run the Spring Boot Application**
-./mvnw spring-boot:ru
+-./mvnw spring-boot:ru
 
 
 5️⃣ **Test APIs via Postman / Swagger**
