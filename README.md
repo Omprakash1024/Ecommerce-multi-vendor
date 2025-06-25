@@ -92,5 +92,5 @@ This project is for educational and portfolio-building purposes only.
 ## 🙌 Connect with Me
 
 **Omprakash M**  
-[LinkedIn]([https://www.linkedin.com/in/omprakash-m-6176b31ba/]) | [LeetCode]([https://leetcode.com/u/OmprakashM24/])
+[LinkedIn - https://www.linkedin.com/in/omprakash-m-6176b31ba] | [LeetCode - https://leetcode.com/u/OmprakashM24/]
 
